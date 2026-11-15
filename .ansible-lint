@@ -1,0 +1,19 @@
+---
+# Matches the Dev Spaces workspace lint arguments:
+# --profile production --offline
+profile: production
+offline: true
+
+exclude_paths:
+  - .ansible-lint
+  - .cursor/
+  - .github/
+  - .pre-commit-config.yaml
+  - .yamllint
+  # Validated against their own schemas, not as Ansible content.
+  - ansible-navigator.yaml
+  - ansible-navigator.yml
+  - ansible-navigator.yaml.sample
+  - ansible-navigator.yml.sample
+  - devfile.yaml
+  - devfile.yml

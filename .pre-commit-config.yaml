@@ -1,0 +1,52 @@
+ci:
+  autoupdate_schedule: monthly
+  autoupdate_commit_msg: "chore: pre-commit autoupdate"
+  autofix_commit_msg: "chore: auto fixes from pre-commit hooks"
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: fix-byte-order-marker
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
+      - id: debug-statements
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        # Identify only tags .ya?ml as YAML. Also include the navigator
+        # sample and the dotfile lint configs.
+        types: [file]
+        files: '(\.(ya?ml)(\.sample)?|(^|/)\.(ansible-lint|yamllint))$'
+      - id: check-json
+        files: '(\.json)$'
+      - id: check-json
+        name: check-json (.code-workspace)
+        types: [file]
+        files: '\.code-workspace$'
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint, --strict]
+        types: [file]
+        files: '(\.(ya?ml)(\.sample)?|(^|/)\.(ansible-lint|yamllint))$'
+
+  # ansible-lint lints the repository root and ignores filenames.
+  # https://github.com/ansible/ansible-lint/issues/611
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v26.11.0
+    hooks:
+      - id: ansible-lint
