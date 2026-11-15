@@ -1,6 +1,11 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/ansible/ansible-navigator/v26.11.0/src/ansible_navigator/data/ansible-navigator.json
 ansible-navigator:
 
+  ansible:
+    inventory:
+      entries:
+        - ./inventory/hosts.yml
+
   execution-environment:
     container-engine: podman
 
@@ -16,10 +21,10 @@ ansible-navigator:
     #     KEY3: VALUE3
 
     # AAP 2.7 supported execution environment
-    # image: registry.redhat.io/ansible-automation-platform-27/ee-supported-rhel9:latest
+    image: quay.io/zleblanc/ee-default:ac1abd92
 
     pull:
-      policy: always
+      policy: missing
 
     # Extra mountpoints
     # volume-mounts:
@@ -31,7 +36,7 @@ ansible-navigator:
     # container-options:
     #   - "--net=host"
 
-  format: json
+  format: yaml
 
   logging:
     level: critical
@@ -44,4 +49,4 @@ ansible-navigator:
   playbook-artifact:
     enable: false
 
-  # time-zone: Japan
+  time-zone: local

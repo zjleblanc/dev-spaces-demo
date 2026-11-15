@@ -1,0 +1,23 @@
+---
+# Restart a service on the inventory hosts.
+# Requires service_name.
+#
+#   ansible-navigator run playbooks/restart-service.yml -e service_name=sshd
+- name: Restart a service
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Require service_name
+      ansible.builtin.assert:
+        that:
+          - service_name is defined
+          - service_name | length > 0
+        fail_msg: >-
+          Pass service_name.
+          Example: ansible-navigator run playbooks/restart-service.yml -e service_name=sshd
+
+    - name: Restart the service
+      ansible.builtin.service:
+        name: "{{ service_name }}"
+        state: restarted
+      become: true

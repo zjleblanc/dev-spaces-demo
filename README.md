@@ -67,7 +67,20 @@ Dev Spaces clones this repository to `/projects/dev-spaces-demo`. If you rename 
 
 ## Demo content
 
-Playbooks for the customer scenario will live under `playbooks/`. None are included yet.
+Playbooks live under `playbooks/`. `ansible-navigator.yaml` points at `inventory/hosts.yml`, which targets localhost so the workspace demos run without extra hosts. Add managed nodes to that inventory when the restart playbook should affect another machine.
+
+```shell
+ansible-navigator run playbooks/hello-world.yml
+ansible-navigator run playbooks/gather-facts.yml
+ansible-navigator run playbooks/restart-service.yml -e service_name=sshd
+ansible-navigator run playbooks/ec2-instance.yml \
+  -e instance_id=i-0123456789abcdef0 \
+  -e instance_action=stop
+```
+
+`playbooks/restart-service.yml` requires `service_name`.
+
+`playbooks/ec2-instance.yml` starts, stops, or terminates an existing EC2 instance (`instance_action` is `start`, `stop`, or `terminate`). It runs on localhost and calls the AWS API, so it needs the `amazon.aws` collection and credentials from the environment or the AWS shared credentials file. The AAP 2.7 supported execution environment includes that collection. Uncomment its image in `ansible-navigator.yaml` when the workspace image does not already provide it. `terminate` removes the instance.
 
 ## Attribution
 

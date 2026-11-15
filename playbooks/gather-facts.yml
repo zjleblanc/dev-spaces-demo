@@ -1,0 +1,16 @@
+---
+# Gather facts from each inventory host and print a short summary.
+#
+#   ansible-navigator run playbooks/gather-facts.yml
+- name: Gather facts
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Print selected facts
+      ansible.builtin.debug:
+        msg:
+          - "Hostname: {{ ansible_facts['hostname'] }}"
+          - "OS family: {{ ansible_facts['os_family'] }}"
+          - "Distribution: {{ ansible_facts['distribution'] | default('unknown', true) }} {{ ansible_facts['distribution_version'] | default('', true) }}"
+          - "Architecture: {{ ansible_facts['architecture'] }}"
+          - "IPv4: {{ ansible_facts['default_ipv4']['address'] | default('unavailable', true) }}"

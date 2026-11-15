@@ -1,0 +1,44 @@
+---
+# Start, stop, or terminate an existing EC2 instance.
+# Runs on localhost and calls the AWS API through amazon.aws.ec2_instance.
+#
+# Required extra vars:
+#   instance_id      EC2 instance ID, such as i-0123456789abcdef0
+#   instance_action  start, stop, or terminate
+#
+# Optional extra vars:
+#   aws_region       Defaults to AWS_DEFAULT_REGION, then us-east-1
+#
+# Credentials come from the environment or the AWS shared credentials file.
+#
+#   ansible-navigator run playbooks/ec2-instance.yml \
+#     -e instance_id=i-0123456789abcdef0 -e instance_action=stop
+- name: Set the state of an EC2 instance
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    aws_region: "{{ lookup('ansible.builtin.env', 'AWS_DEFAULT_REGION') | default('us-east-1', true) }}"
+    ec2_instance_states:
+      start: running
+      stop: stopped
+      terminate: terminated
+  tasks:
+    - name: Require instance_id and instance_action
+      ansible.builtin.assert:
+        that:
+          - instance_id is defined
+          - instance_id | length > 0
+          - instance_action is defined
+          - instance_action in ec2_instance_states
+        fail_msg: >-
+          Pass instance_id and instance_action (start, stop, or terminate).
+          Example: -e instance_id=i-0123456789abcdef0 -e instance_action=stop
+
+    - name: Set the EC2 instance state
+      amazon.aws.ec2_instance:
+        instance_ids:
+          - "{{ instance_id }}"
+        region: "{{ aws_region }}"
+        state: "{{ ec2_instance_states[instance_action] }}"
+        wait: true
