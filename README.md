@@ -1,0 +1,74 @@
+# Ansible Dev Spaces Demo
+
+Customer-facing demo repository for Ansible development in OpenShift Dev Spaces. The workspace uses the Ansible Automation Platform 2.7 Dev Spaces image and Ansible Development Tools (ADT).
+
+## Prerequisites
+
+### Nested containers
+
+Podman and execution environments need container run capabilities enabled on the cluster:
+
+```yaml
+spec:
+  devEnvironments:
+    disableContainerRunCapabilities: false
+```
+
+Patch the `CheCluster` (update the name and namespace to match your cluster):
+
+```shell
+export CHECLUSTER_NAME=<insert name>
+export CHECLUSTER_NAMESPACE=<insert namespace>
+
+oc patch -n $CHECLUSTER_NAMESPACE checluster $CHECLUSTER_NAME --type='json' \
+  -p='[{"op": "replace", "path": "/spec/devEnvironments/disableContainerRunCapabilities", "value": false}]'
+```
+
+### Pulling from registry.redhat.io
+
+This workspace pulls `registry.redhat.io/ansible-automation-platform-27/ansible-devspaces-rhel9:latest`. The cluster or the user project must be able to authenticate to [registry.redhat.io](https://registry.redhat.io).
+
+Create a pull secret in the user project and label it so Dev Spaces applies it to workspace pods. See [Create an image pull Secret with oc](https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.29/html/user_guide/creating-image-pull-secrets_user-guide):
+
+```shell
+oc create secret docker-registry rhcc-pull-secret \
+  --docker-server=registry.redhat.io \
+  --docker-username=<username> \
+  --docker-password=<registry-token>
+
+oc label secret rhcc-pull-secret \
+  controller.devfile.io/devworkspace_pullsecret=true \
+  controller.devfile.io/watch-secret=true
+```
+
+If you cannot reach the Red Hat Container Catalog, point `devfile.yaml` at your organization's internal mirror of the AAP 2.7 Dev Spaces image.
+
+## Launch the workspace
+
+1. Open your organization's OpenShift Dev Spaces dashboard and sign in.
+2. Select **Create Workspace**.
+3. In **Import from Git**, enter `https://github.com/zjleblanc/dev-spaces-demo`.
+4. Click **Create & Open** and wait for the workspace to start.
+
+## Configure ansible-navigator
+
+1. In the workspace terminal, rename the sample settings file:
+
+   ```shell
+   cp ansible-navigator.yaml.sample ansible-navigator.yaml
+   ```
+
+2. Edit `ansible-navigator.yaml` as needed (for example, uncomment the AAP 2.7 EE image or `mode: stdout` for a live demo).
+3. Run `ansible-navigator`.
+
+## Repository rename
+
+Dev Spaces clones this repository to `/projects/dev-spaces-demo`. If you rename the Git repository, update that path in both `devfile.yaml` (`VSCODE_DEFAULT_WORKSPACE`) and `.code-workspace` (`folders[].path` and `folders[].name`).
+
+## Demo content
+
+Playbooks for the customer scenario will live under `playbooks/`. None are included yet.
+
+## Attribution
+
+Workspace scaffold adapted from [cgruver/ansible-devspaces](https://github.com/cgruver/ansible-devspaces) and the [AAP 2.7 Create and launch an Ansible development workspace](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/html/getting_started_with_ansible_automation_platform/develop-assembly_workspaces_create_launch) documentation.

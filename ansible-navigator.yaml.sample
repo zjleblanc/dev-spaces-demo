@@ -1,0 +1,46 @@
+ansible-navigator:
+
+  execution-environment:
+    container-engine: podman
+
+    # Pass custom environment variables into the EE
+    # environment-variables:
+    #   pass:
+    #     - ONE
+    #     - TWO
+    #     - THREE
+    #   set:
+    #     KEY1: VALUE1
+    #     KEY2: VALUE2
+    #     KEY3: VALUE3
+
+    # AAP 2.7 supported execution environment
+    # image: registry.redhat.io/ansible-automation-platform-27/ee-supported-rhel9:latest
+
+    pull:
+      policy: always
+
+    # Extra mountpoints
+    # volume-mounts:
+    #   - src: "/tmp"
+    #     dest: "/test1"
+    #     options: "Z"
+
+    # Use host network
+    # container-options:
+    #   - "--net=host"
+
+  format: json
+
+  logging:
+    level: critical
+    # append: False
+    # file: /tmp/log.txt
+
+  # Uncomment for ansible-playbook style output during a live demo
+  # mode: stdout
+
+  playbook-artifact:
+    enable: false
+
+  # time-zone: Japan
