@@ -1,10 +1,8 @@
----
 # Restart a service on the inventory hosts.
-# Requires service_name.
-#
-#   ansible-navigator run playbooks/restart-service.yml -e service_name=sshd
+# ansible-navigator run playbooks/restart-service.yml -e service_name=sshd
+---
 - name: Restart a service
-  hosts: all
+  hosts: "{{ _hosts | default('aws') }}"
   gather_facts: false
   tasks:
     - name: Require service_name

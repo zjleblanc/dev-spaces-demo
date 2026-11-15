@@ -1,9 +1,8 @@
----
 # Gather facts from each inventory host and print a short summary.
-#
-#   ansible-navigator run playbooks/gather-facts.yml
+# ansible-navigator run playbooks/gather-facts.yml
+---
 - name: Gather facts
-  hosts: all
+  hosts: aws
   gather_facts: true
   tasks:
     - name: Print selected facts

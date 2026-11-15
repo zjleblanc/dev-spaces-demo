@@ -1,7 +1,6 @@
----
 # Print a greeting on the control node.
-#
-#   ansible-navigator run playbooks/hello-world.yml
+# ansible-navigator run playbooks/hello-world.yml
+---
 - name: Say hello
   hosts: localhost
   connection: local
