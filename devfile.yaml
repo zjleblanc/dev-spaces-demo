@@ -19,3 +19,11 @@ components:
           value: "/projects/dev-spaces-demo/.code-workspace"
         - name: "ADT_CONTAINER_ENGINE"
           value: "podman"
+commands:
+  - id: setup-ssh-for-navigator
+    exec:
+      component: dev-tools
+      commandLine: "mkdir -p /projects/.ssh && cp -f /home/user/.ssh/* /projects/.ssh/ && chmod 700 /projects/.ssh && chmod 600 /projects/.ssh/id_rsa"
+events:
+  postStart:
+    - setup-ssh-for-navigator

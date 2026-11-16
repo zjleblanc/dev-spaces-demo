@@ -43,6 +43,15 @@ oc label secret rhcc-pull-secret \
 
 If you cannot reach the Red Hat Container Catalog, point `devfile.yaml` at your organization's internal mirror of the AAP 2.7 Dev Spaces image.
 
+### Create SSH Key Secret for Ansible
+
+```shell
+oc create secret generic ansible-ssh-key \
+  --from-file=id_rsa={private_key_file} \
+  --from-file=id_rsa.pub={public_key_file} \
+  -n {namespace}
+```
+
 ## Launch the workspace
 
 1. Open your organization's OpenShift Dev Spaces dashboard and sign in.
