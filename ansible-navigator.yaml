@@ -13,6 +13,7 @@ ansible-navigator:
       set:
         # Path inside the EE, after the volume mount below.
         ANSIBLE_PRIVATE_KEY_FILE: /home/user/.ssh/id_rsa
+        ANSIBLE_SSH_ARGS: "-F /dev/null -o StrictHostKeyChecking=accept-new"
 
     # AAP 2.7 supported execution environment
     image: quay.io/zleblanc/ee-default:ac1abd92
