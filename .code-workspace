@@ -5,15 +5,19 @@
 		"ansible.ansible.useFullyQualifiedCollectionNames": true,
 		"ansible.validation.enabled": true,
 		"ansible.validation.lint.enabled": true,
+		"ansible.validation.lint.arguments": "--profile production --offline",
+		"ansible.executionEnvironment.enabled": true,
+		"ansible.executionEnvironment.containerEngine": "podman",
 		"ansible.executionEnvironment.image": "quay.io/zleblanc/ee-default:ac1abd92",
+		"ansible.executionEnvironment.pull.policy": "missing",
 		"files.trimTrailingWhitespace": true,
 		"files.trimFinalNewlines": true,
 		"files.insertFinalNewline": true,
-		"ansible.validation.lint.arguments": "--profile production --offline",
 		"openshiftToolkit.showWelcomePage": false,
 		"editor.wordWrap": "on",
-		"files.autoSave": "off",
-		"python.useEnvironmentsExtension": true
+		"files.autoSave": "on",
+		"python.defaultInterpreterPath": "/usr/bin/python3",
+		"python.useEnvironmentsExtension": false
 	},
 	"folders": [
 		{
