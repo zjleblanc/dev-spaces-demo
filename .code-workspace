@@ -15,7 +15,7 @@
 		"files.insertFinalNewline": true,
 		"openshiftToolkit.showWelcomePage": false,
 		"editor.wordWrap": "on",
-		"files.autoSave": "on",
+		"files.autoSave": "afterDelay",
 		"python.defaultInterpreterPath": "/usr/bin/python3",
 		"python.useEnvironmentsExtension": false
 	},
