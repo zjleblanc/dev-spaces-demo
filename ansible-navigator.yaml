@@ -9,16 +9,10 @@ ansible-navigator:
   execution-environment:
     container-engine: podman
 
-    # Pass custom environment variables into the EE
-    # environment-variables:
-    #   pass:
-    #     - ONE
-    #     - TWO
-    #     - THREE
-    #   set:
-    #     KEY1: VALUE1
-    #     KEY2: VALUE2
-    #     KEY3: VALUE3
+    environment-variables:
+      set:
+        # Path inside the EE, after the volume mount below.
+        ANSIBLE_PRIVATE_KEY_FILE: /home/user/.ssh/id_rsa
 
     # AAP 2.7 supported execution environment
     image: quay.io/zleblanc/ee-default:ac1abd92
@@ -26,11 +20,12 @@ ansible-navigator:
     pull:
       policy: missing
 
-    # Extra mountpoints
-    # volume-mounts:
-    #   - src: "/tmp"
-    #     dest: "/test1"
-    #     options: "Z"
+    # The key is copied to /projects/.ssh with mode 600. That directory is
+    # outside the project, so mount it at the user home inside the EE.
+    volume-mounts:
+      - src: /projects/.ssh
+        dest: /home/user/.ssh
+        options: ro,Z
 
     # Use host network
     # container-options:
