@@ -5,6 +5,7 @@
 		"ansible.ansible.useFullyQualifiedCollectionNames": true,
 		"ansible.validation.enabled": true,
 		"ansible.validation.lint.enabled": true,
+		"ansible.executionEnvironment.image": "quay.io/zleblanc/ee-default:ac1abd92",
 		"files.trimTrailingWhitespace": true,
 		"files.trimFinalNewlines": true,
 		"files.insertFinalNewline": true,
